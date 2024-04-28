@@ -8,6 +8,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+import { register } from "./controllers/auth.js";
 
 
 // CONFiGuration
@@ -36,24 +37,33 @@ app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /* FILE STORAGE */ // from github repo
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/assets");
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    },
+  destination: function (req, file, cb) {
+    cb(null, "public/assets");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
 });
 const upload = multer({ storage });
+
+/* ROUTES WITH FILES */
+app.post("/auth/register", upload.single("picture"), register);
+app.post("/auth/uwu", register);
+
+app.get("/", (req, res) => {
+  res.send("API testing");
+});
+
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose
-    .connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
-    })
-    .catch((error) => console.log(`${error} did not connect? rip :(`));
+  })
+  .catch((error) => console.log(`${error} did not connect? rip :(`));
