@@ -8,6 +8,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+
+import authRoutes from "./routes/auth.js";
 import { register } from "./controllers/auth.js";
 
 
@@ -47,12 +49,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* ROUTES WITH FILES */
-app.post("/auth/register", upload.single("picture"), register);
-app.post("/auth/uwu", register);
 
-app.get("/", (req, res) => {
-  res.send("API testing");
-});
+// should be in routes folder, but need upload variable, so yeah
+app.post("/auth/register", upload.single("picture"), register);
+
+/* AUTH ROUTES */
+app.use("/auth", authRoutes);
 
 
 /* MONGOOSE SETUP */
