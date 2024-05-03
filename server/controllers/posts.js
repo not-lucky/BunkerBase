@@ -71,7 +71,7 @@ export const likePost = async (req, res) => {
     if (hasLiked) {
       post.likes.delete(userId);
     } else {
-      post.likes.put(userId, true);
+      post.likes.set(userId, true);
     }
 
     // await post.save();
