@@ -20,6 +20,14 @@ import { register } from "./controllers/auth.js";
 import { verifyToken } from "./middleware/auth.js";
 
 
+// import bcrypt from "bcrypt";
+
+// for initial data fill
+import User from "./models/User.js";
+import Post from "./models/Post.js";
+import { posts, users } from "./data/index.js";
+
+
 // CONFiGuration
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -75,7 +83,19 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    app.listen(PORT, () => {
+      console.log(`Server Port: ${PORT}`)
+      // for (let i = 0; i < 8; i++) {
+      //   bcrypt.genSalt().then((salt) => {
+      //     bcrypt.hash("abc", salt).then((hash) => {
+      //       console.log(hash);
+      //     })
+      //   });
+      // }
 
+      Post.insertMany(posts);
+      User.insertMany(users);
+
+    });
   })
   .catch((error) => console.log(`${error} did not connect? rip :(`));
