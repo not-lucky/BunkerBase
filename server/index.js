@@ -93,8 +93,8 @@ mongoose
       //   });
       // }
 
-      Post.insertMany(posts);
-      User.insertMany(users);
+      // Post.insertMany(posts);
+      // User.insertMany(users);
 
     });
   })
