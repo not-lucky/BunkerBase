@@ -3,8 +3,6 @@ import User from "../models/User.js";
 /* READ */
 export const getUser = async (req, res) => {
   try {
-
-    // id got from "/:id" endpoint btw
     const { id } = req.params;
     const user = await User.findById(id);
     res.status(200).json(user);
@@ -31,7 +29,6 @@ export const getUserFriends = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
-
 
 /* UPDATE */
 export const addRemoveFriend = async (req, res) => {
