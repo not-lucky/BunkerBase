@@ -44,10 +44,10 @@ export const getFeedPosts = async (req, res) => {
 
 export const getUserPosts = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
     // const user = await User.findById(id);
 
-    const userPosts = await Post.find({ id: id })
+    const userPosts = await Post.find({ userId });
 
     res.status(200).json(userPosts);
 
@@ -61,10 +61,10 @@ export const getUserPosts = async (req, res) => {
 
 export const likePost = async (req, res) => {
   try {
-    const { postID } = req.params;
+    const { id } = req.params;
     const { userId } = req.body;
 
-    const post = await Post.findById({ id: postID });
+    const post = await Post.findById({ id: id });
 
     const hasLiked = post.likes.get(userId);
 
@@ -78,8 +78,8 @@ export const likePost = async (req, res) => {
 
     // no need to manually save, as it updates
     // boolean new: true returns updated post
-    const updatedPost = Post.findByIdAndUpdate(
-      postID,
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
       { likes: post.likes },
       { new: true }
     );
